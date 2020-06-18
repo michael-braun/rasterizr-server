@@ -12,6 +12,8 @@ RUN npm run build
 FROM node:12-slim
 EXPOSE 8080
 
+ENV DATA_DIR /data
+
 # update and add all the steps for running with xvfb
 RUN apt-get update &&\
     apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \

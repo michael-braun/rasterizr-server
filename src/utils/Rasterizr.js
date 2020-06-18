@@ -27,6 +27,10 @@ export default class Rasterizr {
     }
 
     get sourcePath() {
+        if (process.env.DATA_DIR) {
+            return path.resolve(process.env.DATA_DIR, this.#library, `${this.#icon}.svg`);
+        }
+
         return path.resolve(__dirname, '..', '..', 'data', this.#library, `${this.#icon}.svg`);
     }
 
