@@ -43,5 +43,5 @@ USER pptruser
 COPY src/openapi.yml ./build/
 COPY --from=0 /usr/src/app/build ./build
 
-CMD ["node", "lib/index.js"]
+CMD ["node", "build/index.js"]
 
