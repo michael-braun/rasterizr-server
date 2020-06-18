@@ -17,9 +17,10 @@ export default function registerRasterizationRoutes(router) {
         });
 
         ctx.body = buffer;
-        console.log(metadata);
 
         ctx.set('Content-Type', 'image/png');
+        ctx.set('X-Image-Width', metadata.width);
+        ctx.set('X-Image-Height', metadata.height);
 
         ctx.status = 200;
     });

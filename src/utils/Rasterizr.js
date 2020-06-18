@@ -3,6 +3,7 @@ import fs from 'fs';
 import { promisify } from 'util';
 import sharp from 'sharp';
 import Jimp from 'jimp';
+import calculateMetadata from './calculateMetadata';
 
 const access = promisify(fs.access);
 
@@ -74,7 +75,7 @@ export default class Rasterizr {
         const buffer = data.toBuffer();
 
         return {
-            metadata: await metaData,
+            metadata: calculateMetadata(await metaData, options),
             buffer: await buffer,
         };
     }
