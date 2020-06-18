@@ -1,0 +1,121 @@
+openapi: "3.0.0"
+info:
+  description: "A backend for rasterizing svg images to png, jpg, webp and bmp"
+  version: "0.1"
+  title: "rasterizr-server"
+  license:
+    name: "MIT"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+  /rasterizations/{library}/{icon}.png:
+    get:
+      summary: "Rasterizes an icon to a png-file"
+      description: ""
+      operationId: "rasterizePng"
+      parameters:
+        - in: path
+          name: library
+          schema:
+            type: string
+          required: true
+          description: The library which contains the icon
+        - in: path
+          name: icon
+          schema:
+            type: string
+          required: true
+          description: The icon that should be rasterized
+      responses:
+        200:
+          description: The rasterized image
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: "The requested icon could not be found"
+  /rasterizations/{library}/{icon}.webp:
+    get:
+      summary: "Rasterizes an icon to a webp-file"
+      description: ""
+      operationId: "rasterizeWebP"
+      parameters:
+        - in: path
+          name: library
+          schema:
+            type: string
+          required: true
+          description: The library which contains the icon
+        - in: path
+          name: icon
+          schema:
+            type: string
+          required: true
+          description: The icon that should be rasterized
+      responses:
+        200:
+          description: The rasterized image
+          content:
+            image/webp:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: "The requested icon could not be found"
+  /rasterizations/{library}/{icon}.bmp:
+    get:
+      summary: "Rasterizes an icon to a bmp-file"
+      description: ""
+      operationId: "rasterizeBmp"
+      parameters:
+        - in: path
+          name: library
+          schema:
+            type: string
+          required: true
+          description: The library which contains the icon
+        - in: path
+          name: icon
+          schema:
+            type: string
+          required: true
+          description: The icon that should be rasterized
+      responses:
+        200:
+          description: The rasterized image
+          content:
+            image/bmp:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: "The requested icon could not be found"
+  /rasterizations/monochrome-bitmaps/{library}/{icon}.raw:
+    get:
+      summary: "Rasterizes an icon to an arduino bitmap"
+      description: ""
+      operationId: "rasterizeArduinoBitmap"
+      parameters:
+        - in: path
+          name: library
+          schema:
+            type: string
+          required: true
+          description: The library which contains the icon
+        - in: path
+          name: icon
+          schema:
+            type: string
+          required: true
+          description: The icon that should be rasterized
+      responses:
+        200:
+          description: The rasterized image
+          content:
+            image/bmp:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: "The requested icon could not be found"

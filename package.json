@@ -1,0 +1,36 @@
+{
+  "name": "rasterizr-server",
+  "version": "0.0.0",
+  "description": "A backend for rasterizing svg images to png, webp and bmp",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index.js",
+    "build": "babel src --out-dir build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "puppeteer",
+    "svg",
+    "rasterize",
+    "backend"
+  ],
+  "author": "Michael Braun",
+  "license": "MIT",
+  "dependencies": {
+    "@koa/router": "^9.0.1",
+    "jimp": "^0.13.0",
+    "koa": "^2.12.1",
+    "koa-bodyparser": "^4.3.0",
+    "sharp": "^0.25.4",
+    "swagger2": "^2.0.0",
+    "swagger2-koa": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "nodemon": "^2.0.4"
+  }
+}
