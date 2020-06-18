@@ -33,12 +33,17 @@ export default function registerRasterizationRoutes(router) {
             return;
         }
 
-        ctx.body = await rasterizr.toWebP({
+        const { buffer, metadata } = await rasterizr.toWebP({
             width: parseInt(ctx.state.icon.options.w, 10) || null,
             height: parseInt(ctx.state.icon.options.h, 10) || null,
             size: parseInt(ctx.state.icon.options.s, 10) || null,
         });
+
+        ctx.body = buffer;
+
         ctx.set('Content-Type', 'image/webp');
+        ctx.set('X-Image-Width', metadata.width);
+        ctx.set('X-Image-Height', metadata.height);
 
         ctx.status = 200;
     });
@@ -51,12 +56,17 @@ export default function registerRasterizationRoutes(router) {
             return;
         }
 
-        ctx.body = await rasterizr.toBMP({
+        const { buffer, metadata } = await rasterizr.toBMP({
             width: parseInt(ctx.state.icon.options.w, 10) || null,
             height: parseInt(ctx.state.icon.options.h, 10) || null,
             size: parseInt(ctx.state.icon.options.s, 10) || null,
         });
+
+        ctx.body = buffer;
+
         ctx.set('Content-Type', 'image/bmp');
+        ctx.set('X-Image-Width', metadata.width);
+        ctx.set('X-Image-Height', metadata.height);
 
         ctx.status = 200;
     });
@@ -69,12 +79,17 @@ export default function registerRasterizationRoutes(router) {
             return;
         }
 
-        ctx.body = await rasterizr.toMonochromeBitmap({
+        const { buffer, metadata } = await rasterizr.toMonochromeBitmap({
             width: parseInt(ctx.state.icon.options.w, 10) || null,
             height: parseInt(ctx.state.icon.options.h, 10) || null,
             size: parseInt(ctx.state.icon.options.s, 10) || null,
         });
+
+        ctx.body = buffer;
+
         ctx.set('Content-Type', 'application/octet-stream');
+        ctx.set('X-Image-Width', metadata.width);
+        ctx.set('X-Image-Height', metadata.height);
 
         ctx.status = 200;
     });

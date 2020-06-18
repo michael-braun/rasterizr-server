@@ -80,29 +80,40 @@ export default class Rasterizr {
         };
     }
 
-    async toWebP() {
-        return (await this.#getSharp(options))
-            .webp()
-            .toBuffer();
+    async toWebP(options) {
+        const data = (await this.#getSharp(options))
+            .webp();
+
+        const metaData = data.metadata();
+        const buffer = data.toBuffer();
+
+        return {
+            metadata: calculateMetadata(await metaData, options),
+            buffer: await buffer,
+        };
     }
 
-    async toBMP() {
-        const pngBuffer = (await this.toPNG()).buffer;
+    async toBMP(options) {
+        const pngData = await this.toPNG(options);
 
-        const image = await Jimp.read(pngBuffer);
+        const image = await Jimp.read(pngData.buffer);
         image.background(0xFFFFFFFF);
-        return image.getBufferAsync(Jimp.MIME_BMP);
+        return {
+            metadata: pngData.metadata,
+            buffer: await image.getBufferAsync(Jimp.MIME_BMP),
+        };
     }
 
     async toMonochromeBitmap(options) {
-        const bufferPromise = (await this.#getSharp(options))
+        const imageData = (await this.#getSharp(options))
             .threshold()
             .ensureAlpha()
             .extractChannel(3)
             .toColorspace('b-w')
-            .raw()
-            .toBuffer();
-        const buffer = await bufferPromise;
+            .raw();
+
+        const metadata = imageData.metadata();
+        const buffer = await imageData.toBuffer();
 
         const minBuffer = Buffer.alloc(Math.ceil(buffer.length / 8), 0, 'binary');
         for (let i = 0, z = buffer.length; i < z; i++) {
@@ -113,6 +124,9 @@ export default class Rasterizr {
             }
         }
 
-        return minBuffer;
+        return {
+            metadata: calculateMetadata(await metadata, options),
+            buffer: minBuffer,
+        };
     }
 }
