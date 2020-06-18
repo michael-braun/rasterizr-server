@@ -172,3 +172,5 @@ typings/
 
 # Serverless directories
 .serverless
+
+/data
