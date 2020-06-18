@@ -10,11 +10,15 @@ export default function registerRasterizationRoutes(router) {
             return;
         }
 
-        ctx.body = await rasterizr.toPNG({
+        const { buffer, metadata } = await rasterizr.toPNG({
             width: parseInt(ctx.state.icon.options.w, 10) || null,
             height: parseInt(ctx.state.icon.options.h, 10) || null,
             size: parseInt(ctx.state.icon.options.s, 10) || null,
         });
+
+        ctx.body = buffer;
+        console.log(metadata);
+
         ctx.set('Content-Type', 'image/png');
 
         ctx.status = 200;

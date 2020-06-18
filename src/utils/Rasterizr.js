@@ -67,9 +67,16 @@ export default class Rasterizr {
     };
 
     async toPNG(options) {
-        return (await this.#getSharp(options))
-            .png()
-            .toBuffer();
+        const data = (await this.#getSharp(options))
+            .png();
+
+        const metaData = data.metadata();
+        const buffer = data.toBuffer();
+
+        return {
+            metadata: await metaData,
+            buffer: await buffer,
+        };
     }
 
     async toWebP() {
@@ -79,7 +86,7 @@ export default class Rasterizr {
     }
 
     async toBMP() {
-        const pngBuffer = await this.toPNG();
+        const pngBuffer = (await this.toPNG()).buffer;
 
         const image = await Jimp.read(pngBuffer);
         image.background(0xFFFFFFFF);
