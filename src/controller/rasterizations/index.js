@@ -71,7 +71,7 @@ export default function registerRasterizationRoutes(router) {
         ctx.status = 200;
     });
 
-    router.get('/rasterizations/monochrome-bitmaps/:library/:icon', FilenameMiddleware(), async (ctx) => {
+    router.get('/rasterizations/monochrome-bitmaps/:library/:icon.raw', FilenameMiddleware(), async (ctx) => {
         const rasterizr = await Rasterizr.Get(ctx.params.library, ctx.state.icon.name);
 
         if (!rasterizr) {
