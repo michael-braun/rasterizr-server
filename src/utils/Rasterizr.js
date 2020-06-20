@@ -112,20 +112,35 @@ export default class Rasterizr {
             .toColorspace('b-w')
             .raw();
 
-        const metadata = imageData.metadata();
-        const buffer = await imageData.toBuffer();
+        const [buffer, realMetadata] = await Promise.all([
+            imageData.toBuffer(),
+            imageData.metadata(),
+        ]);
+        const metadata = calculateMetadata(realMetadata, options);
 
-        const minBuffer = Buffer.alloc(Math.ceil(buffer.length / 8), 0, 'binary');
-        for (let i = 0, z = buffer.length; i < z; i++) {
-            if (buffer[i] > 128) {
-                const idx = Math.floor(i / 8);
 
-                minBuffer[idx] |= (1 << (7 - (i % 8)));
+        let lineLength = Math.ceil(metadata.width / 8) * 8;
+        const lineByteLength = Math.floor((metadata.width + 7) / 8);
+
+        const minBuffer = Buffer.alloc((metadata.height * lineLength) / 8, 0, 'binary');
+        let idx = -1;
+        for (let y = 0, yz = metadata.height; y < yz; y++) {
+            for (let x = 0, xz = metadata.width; x < xz; x++) {
+                const sourceI = (y * metadata.width) + x;
+                const targetI = (y * lineByteLength * 8) + x;
+
+                if (targetI % 8 === 0) {
+                    idx++;
+                }
+
+                if (buffer[sourceI] >= 127) {
+                    minBuffer[idx] |= (1 << (7 - (targetI % 8)));
+                }
             }
         }
 
         return {
-            metadata: calculateMetadata(await metadata, options),
+            metadata: metadata,
             buffer: minBuffer,
         };
     }
