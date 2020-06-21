@@ -1,6 +1,6 @@
 {
   "name": "rasterizr-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A backend for rasterizing svg images to png, webp and bmp",
   "main": "index.js",
   "scripts": {
