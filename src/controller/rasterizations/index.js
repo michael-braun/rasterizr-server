@@ -1,8 +1,9 @@
 import Rasterizr from '../../utils/Rasterizr';
 import FilenameMiddleware from '../../utils/FilenameMiddleware';
+import IconLogMiddleware from '../../utils/IconLogMiddleware';
 
 export default function registerRasterizationRoutes(router) {
-    router.get('/rasterizations/:library/:icon.png', FilenameMiddleware(), async (ctx) => {
+    router.get('/rasterizations/:library/:icon.png', FilenameMiddleware(), IconLogMiddleware('png'), async (ctx) => {
         const rasterizr = await Rasterizr.Get(ctx.params.library, ctx.state.icon.name);
 
         if (!rasterizr) {
@@ -25,7 +26,7 @@ export default function registerRasterizationRoutes(router) {
         ctx.status = 200;
     });
 
-    router.get('/rasterizations/:library/:icon.webp', FilenameMiddleware(), async (ctx) => {
+    router.get('/rasterizations/:library/:icon.webp', FilenameMiddleware(), IconLogMiddleware('webp'), async (ctx) => {
         const rasterizr = await Rasterizr.Get(ctx.params.library, ctx.state.icon.name);
 
         if (!rasterizr) {
@@ -48,7 +49,7 @@ export default function registerRasterizationRoutes(router) {
         ctx.status = 200;
     });
 
-    router.get('/rasterizations/:library/:icon.bmp', FilenameMiddleware(), async (ctx) => {
+    router.get('/rasterizations/:library/:icon.bmp', FilenameMiddleware(), IconLogMiddleware('bmp'), async (ctx) => {
         const rasterizr = await Rasterizr.Get(ctx.params.library, ctx.state.icon.name);
 
         if (!rasterizr) {
@@ -71,7 +72,7 @@ export default function registerRasterizationRoutes(router) {
         ctx.status = 200;
     });
 
-    router.get('/rasterizations/monochrome-bitmaps/:library/:icon.raw', FilenameMiddleware(), async (ctx) => {
+    router.get('/rasterizations/monochrome-bitmaps/:library/:icon.raw', FilenameMiddleware(), IconLogMiddleware('arduino-raw'), async (ctx) => {
         const rasterizr = await Rasterizr.Get(ctx.params.library, ctx.state.icon.name);
 
         if (!rasterizr) {
